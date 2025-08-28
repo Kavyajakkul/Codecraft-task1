@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load dataset (make sure you have downloaded and extracted the CSV from World Bank)
+file_name = 'API_SP.POP.TOTL_DS2_en_csv_v2.csv'  # Replace with your actual file name
+
+# Read the CSV file (skip first 4 rows which contain metadata)
+data = pd.read_csv(file_name, skiprows=4)
+
+# Check if '2022' column exists
+if '2022' not in data.columns:
+    print("Error: Column '2022' not found in dataset. Check the file content.")
+else:
+    # Select top 10 countries by population in 2022
+    selected_data = data[['Country Name', '2022']].dropna().sort_values(by='2022', ascending=False).head(10)
+
+    # Create bar chart
+    plt.figure(figsize=(10, 6))
+    plt.bar(selected_data['Country Name'], selected_data['2022'])
+    plt.xticks(rotation=45, ha='right')
+    plt.title('Top 10 Countries by Population (2022)')
+    plt.xlabel('Country')
+    plt.ylabel('Population')
+    plt.tight_layout()
+    plt.show()
